@@ -1,0 +1,19 @@
+<LPCOpenCfg>
+	<symbol name="varChipConfigDir" value="${varChipLibSrcDir}/config_${prjChipFamily}"/>
+	<symbol name="varCPUCore" value="m0"/>
+	<module name="core_${varCPUCore}"/>
+	<template section="filelist" name="lpc_chip_${prjChipFamily}" tool="xpresso">
+		<import src="${varChipConfigDir}" dest="inc">
+			<include>*.h</include>
+		</import>
+		<import src="${varChipLibSrcDir}/../chip_common" dest="inc">
+			<include>iap.h</include>
+			<include>error.h</include>
+			<include>stopwatch.h</include>
+		</import>
+		<import src="${varChipLibSrcDir}/../chip_common" dest="src">
+			<include>iap.c</include>
+		</import>
+	</template>
+
+</LPCOpenCfg>
