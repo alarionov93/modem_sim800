@@ -1,442 +1,0 @@
-Dependencies for Project 'lib_lpc_chip_112x', Target 'chip_112x_lib': (DO NOT MODIFY !)
-F (..\chip_common\ring_buffer.c)(0x52F2FADA)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\ring_buffer.o --omf_browse .\keil_output\ring_buffer.crf --depend .\keil_output\ring_buffer.d)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54761D30)
-I (..\chip_common\ring_buffer.h)(0x52F2FADA)
-I (..\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-F (..\chip_common\iap.c)(0x54C1FECE)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\iap.o --omf_browse .\keil_output\iap.crf --depend .\keil_output\iap.d)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\i2c_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\i2c_common_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\i2cm_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\wwdt_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\timer_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\adc_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\pmu_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\fmc_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\ssp_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\iocon_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\syscon_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\clock_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\gpio_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\romdiv_112x.h)(0x54BCE1F4)
-F (.\adc_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\adc_112x.o --omf_browse .\keil_output\adc_112x.crf --depend .\keil_output\adc_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\chip_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\chip_112x.o --omf_browse .\keil_output\chip_112x.crf --depend .\keil_output\chip_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\clock_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\clock_112x.o --omf_browse .\keil_output\clock_112x.crf --depend .\keil_output\clock_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\gpio_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\gpio_112x.o --omf_browse .\keil_output\gpio_112x.crf --depend .\keil_output\gpio_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\i2c_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\i2c_112x.o --omf_browse .\keil_output\i2c_112x.crf --depend .\keil_output\i2c_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\i2cm_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\i2cm_112x.o --omf_browse .\keil_output\i2cm_112x.crf --depend .\keil_output\i2cm_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\iocon_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\iocon_112x.o --omf_browse .\keil_output\iocon_112x.crf --depend .\keil_output\iocon_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\pmu_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\pmu_112x.o --omf_browse .\keil_output\pmu_112x.crf --depend .\keil_output\pmu_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\ssp_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\ssp_112x.o --omf_browse .\keil_output\ssp_112x.crf --depend .\keil_output\ssp_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\syscon_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\syscon_112x.o --omf_browse .\keil_output\syscon_112x.crf --depend .\keil_output\syscon_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\sysinit_112x.c)(0x5BA4BAAF)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\sysinit_112x.o --omf_browse .\keil_output\sysinit_112x.crf --depend .\keil_output\sysinit_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\timer_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\timer_112x.o --omf_browse .\keil_output\timer_112x.crf --depend .\keil_output\timer_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\uart_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\uart_112x.o --omf_browse .\keil_output\uart_112x.crf --depend .\keil_output\uart_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
-F (.\wwdt_112x.c)(0x54BCE1F4)(-c --cpu Cortex-M0 -g -O3 --apcs=interwork -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x -I..\..\..\..\software\lpc_core\lpc_chip\chip_common -I..\..\..\..\software\CMSIS\CMSIS\Include-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\NXP\LPC112x-D__UVISION_VERSION="514" -DCORE_M0-o .\keil_output\wwdt_112x.o --omf_browse .\keil_output\wwdt_112x.crf --depend .\keil_output\wwdt_112x.d)
-I (chip.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\lpc_types.h)(0x52F2FADA)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54761D30)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x54761D30)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_112x\config_112x\sys_config.h)(0x54BD3C08)
-I (cmsis.h)(0x54BD3C08)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cm0.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmInstr.h)(0x52F2FAD8)
-I (..\..\..\..\software\CMSIS\CMSIS\Include\core_cmFunc.h)(0x52F2FAD8)
-I (i2c_112x.h)(0x54BCE1F4)
-I (i2c_common_112x.h)(0x54BCE1F4)
-I (i2cm_112x.h)(0x54BCE1F4)
-I (wwdt_112x.h)(0x54BCE1F4)
-I (uart_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\ring_buffer.h)(0x52F2FADA)
-I (timer_112x.h)(0x54BCE1F4)
-I (adc_112x.h)(0x54BCE1F4)
-I (pmu_112x.h)(0x54BCE1F4)
-I (fmc_112x.h)(0x54BCE1F4)
-I (ssp_112x.h)(0x54BCE1F4)
-I (iocon_112x.h)(0x54BCE1F4)
-I (syscon_112x.h)(0x54BCE1F4)
-I (clock_112x.h)(0x54BCE1F4)
-I (gpio_112x.h)(0x54BCE1F4)
-I (romapi_112x.h)(0x54BCE1F4)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\iap.h)(0x54C1FECE)
-I (..\..\..\..\software\lpc_core\lpc_chip\chip_common\error.h)(0x541BA69C)
-I (romdiv_112x.h)(0x54BCE1F4)
