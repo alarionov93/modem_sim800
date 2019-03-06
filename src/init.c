@@ -1,24 +1,26 @@
 #include "init.h"
 #include "modem.h"
 
-/* Main timer value */
-volatile uint32_t systick = 0;
+// 1_8 TX 0_3 RX
+// does this apply to UART1 too?
+// static void Init_UART_PinMux(void)
+// {
+// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_6, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD */
+// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_7, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD */
+// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO0_3, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD */
+// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_8, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD */
+// }
 
 static void Init_UART_PinMux(void)
 {
-	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_6, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD */
-	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_7, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD */
-}
+	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_6, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD0 */
+	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_7, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD0 */
 
-/**
-	* @brief  Delay task
-	* @param  ms delay
-*/
-void task_delay(uint32_t ms)
-{
-	uint32_t ticks = systick;
-	while (!TME_CHECK(ticks, ms))
-        __NOP();
+	// !!! Через Chip_IPCON_PinMuxSet почему-то не работает (баг в библоитеке)
+	// txd2 @ pio1_8
+	*((uint32_t *)0x40044018) |= 0x3; 
+	// rxd2 @ pio0_3
+	*((uint32_t *)0x400440c0) |= 0x3;
 }
 
 
@@ -28,11 +30,24 @@ void init(void)
 	SystemCoreClockUpdate();
 	/* 1ms (1000Hz) interrupt */
 	SysTick_Config(SystemCoreClock / 1000);
-//	Board_Init();
-	Init_UART_PinMux();
-//	Board_LED_Set(0, false);
-	
+
+	// Включение клоков uart
+	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_UART0); // включаем clock uart0
+	LPC_SYSCON->UART0CLKDIV = 1;
+	LPC_SYSCON->SYSAHBCLKCTRL |= (1ul << 19); // включаем clock uart1
+	LPC_SYSCON->UART1CLKDIV = 1;
+	LPC_SYSCON->SYSAHBCLKCTRL |= (1ul << 20); // включаем clock uart2
+	LPC_SYSCON->UART2CLKDIV = 1; // !!! ВОТ ИЗ-ЗА ЭТОГО НЕ РАБОТАЛО. Chip_UART_Init делает это только для uart0
+
+	// Включение клока блока IOCON
 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_IOCON);
+	// Настройка функций на ножках, где uart
+	Init_UART_PinMux();
+	
+	/* Setup UART for 9600 */
+	Chip_UART_Init(LPC_UART2);
+	Chip_UART_SetBaud(LPC_UART2, 38400);
+
 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_GPIO);
 	
 	Chip_GPIO_Init(LPC_GPIO);
@@ -42,11 +57,17 @@ void init(void)
 	Chip_GPIO_SetPinDIR(LPC_GPIO, 2, 6, true);
 	Chip_GPIO_SetPinDIR(LPC_GPIO, 1, 5, true);
 
-	/* Setup UART for 9600 */
+	/* Setup UART0 for modem 9600 */
 	Chip_UART_Init(LPC_UART0);
 	Chip_UART_SetBaud(LPC_UART0, 9600);
 	Chip_UART_ConfigData(LPC_UART0, (UART_LCR_WLEN8 | UART_LCR_SBS_1BIT));	
 	Chip_UART_TXEnable(LPC_UART0);
+
+	/* Setup UART1 for SENSORS BUS 38400 */
+	// Chip_UART_Init(LPC_UART2);
+	// Chip_UART_SetBaud(LPC_UART2, 38400);
+	// Chip_UART_ConfigData(LPC_UART2, (UART_LCR_WLEN8 | UART_LCR_SBS_1BIT));	
+	// Chip_UART_TXEnable(LPC_UART2);
 
 	/* Before using the ring buffers, initialize them using the ring
 	   buffer init function */
@@ -56,13 +77,18 @@ void init(void)
 	/* Reset and enable FIFOs, FIFO trigger level 3 (14 chars) */
 	Chip_UART_SetupFIFOS(LPC_UART0, (UART_FCR_FIFO_EN | UART_FCR_RX_RS |
 							UART_FCR_TX_RS | UART_FCR_TRG_LEV1));
+	Chip_UART_SetupFIFOS(LPC_UART2, (UART_FCR_FIFO_EN | UART_FCR_RX_RS |
+							UART_FCR_TX_RS | UART_FCR_TRG_LEV1));
 
 	/* Enable receive data and transmit data */
 	Chip_UART_IntEnable(LPC_UART0, UART_IER_RBRINT);
+	Chip_UART_IntEnable(LPC_UART2, UART_IER_RBRINT);
 
 	/* preemption = 1, sub-priority = 1 */
 	NVIC_SetPriority(UART0_IRQn, 1);
+	NVIC_SetPriority(UART2_IRQn, 1);
 	NVIC_EnableIRQ(UART0_IRQn);
+	NVIC_EnableIRQ(UART2_IRQn);
 
 	init_sim_800();
 }

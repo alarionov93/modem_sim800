@@ -14,15 +14,25 @@ typedef enum {
 
 typedef enum {
 	MTASK_INIT,
-	MTASK_REG,
+	MTASK_CHECK_REG,
 	MTASK_CONF_SMS,
 	MTASK_WORK,
+	MTASK_CHECK_PING,
+	MTASK_CHECK_SMS_IS_SENT,
 } mtask_state_t;
 
 typedef enum {
 	SMS_TASK_INIT,
 	SMS_TASK_WORK,
+	SMS_TASK_IDLE,
 } sms_task_state_t;
+
+// move this to sbus.h too
+typedef enum {
+	SBUS_TASK_INIT,
+	SBUS_TASK_WORK,
+	SBUS_TASK_IDLE,
+} sbus_task_state_t;
 
 void init_sim_800(void);
 void modem_task(void);

@@ -1,5 +1,4 @@
 #include "init.h"
-#include "modem.h"
 
 /*****************************************************************************
  * Private types/enumerations/variables
@@ -8,6 +7,9 @@
 /**
 	* @brief  Timer of ms from lpc chip is turned on
 */
+
+volatile uint32_t systick = 0;
+
 void SysTick_Handler(void)
 {
 	systick++;
@@ -27,6 +29,35 @@ void led_toggle(void)
 	}
 }
 
+void task_delay(uint32_t ms)
+{
+	uint32_t ticks = systick;
+	while (!TME_CHECK(ticks, ms))
+        __NOP();
+}
+
+// void init(void)
+// {
+// 	SystemCoreClockUpdate();
+// 	SysTick_Config(SystemCoreClock / 1000);
+
+// 	// Включение клоков uart
+// 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_UART0);
+// 	LPC_SYSCON->UART0CLKDIV = 1;
+// 	LPC_SYSCON->SYSAHBCLKCTRL |= (1ul << 19); // включаем clock uart1
+// 	LPC_SYSCON->UART1CLKDIV = 1;
+// 	LPC_SYSCON->SYSAHBCLKCTRL |= (1ul << 20); // включаем clock uart2
+// 	LPC_SYSCON->UART2CLKDIV = 1; // !!! ВОТ ИЗ-ЗА ЭТОГО НЕ РАБОТАЛО. Chip_UART_Init делает это только для uart0
+
+// 	// Включение клока блока IOCON
+// 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_IOCON);
+// 	// Настройка функций на ножках, где uart
+// 	Init_UART_PinMux();
+	
+// 	/* Setup UART for 9600 */
+// 	Chip_UART_Init(LPC_UART2);
+// 	Chip_UART_SetBaud(LPC_UART2, 9600);
+// }
 
 
 //uint8_t last_cmd;
@@ -146,6 +177,13 @@ void led_toggle(void)
 //	}
 //}
 
+void uart2_echo_task()
+{	
+	if (LPC_UART2->LSR & UART_LSR_RDR) {
+		LPC_UART2->THR = LPC_UART2->RBR;
+	}
+}
+
 /**
  * @brief	Main UART program body
  * @return	Always returns 1
@@ -155,8 +193,11 @@ int main(void)
 	init();	
 	
 	for (;;) {
-		modem_task();
-		sms_task();
+		//modem_task();
+		sbus_task();
+		// uart2_echo_task();
+		// sms_task();
+		// modem_error_handler();
 		//network_task();		
 		//led_task();
 	}
