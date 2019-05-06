@@ -1,6 +1,7 @@
 #include "init.h"
 #include "modem.h"
-#include "chip.h"
+#include "modbus.h"
+//#include "chip.h"
 
 #define MODEM_RX_BUF_LEN 128
 #define MODEM_TX_BUF_LEN 128
@@ -20,7 +21,7 @@ volatile uint32_t modem_tx_idx;
 
 volatile modem_state_t module_state;
 volatile mtask_state_t mtask_state;
-volatile sms_task_state_t sms_task_state;
+volatile gsm_state_t gsm_state;
 
 volatile uint32_t module_tme;
 
@@ -36,6 +37,8 @@ volatile uint32_t sbus_tx_idx;
 volatile sbus_task_state_t sbus_task_state;
 
 volatile uint32_t sbus_tme;
+volatile int module_err_cnt = 0;
+volatile int gsm_check_cnt = 0;
 
 const char *phone_numbers[1] = {"+79655766572"};
 
@@ -79,25 +82,25 @@ void uart_rx_handler()
 	}
 }
 
-void uart2_tx_handler()
+void uart1_tx_handler()
 {
-	uint32_t written = Chip_UART_Send(LPC_UART2, &sbus_tx_buffer[sbus_tx_idx], sbus_tx_count);	
+	uint32_t written = Chip_UART_Send(LPC_UART1, &sbus_tx_buffer[sbus_tx_idx], sbus_tx_count);	
 	
 	sbus_tx_idx += written;
 	sbus_tx_count -= written;
 	
 	if (!sbus_tx_count) {
 		// Отключаем прерывание tx
-		Chip_UART_IntDisable(LPC_UART2, UART_IER_THREINT);
+		Chip_UART_IntDisable(LPC_UART1, UART_IER_THREINT);
 	}
 }
 
 
 
-void uart2_rx_handler()
+void uart1_rx_handler()
 {
-	while (LPC_UART2->LSR & UART_LSR_RDR) {
-		uint8_t byte = LPC_UART2->RBR;
+	while (LPC_UART1->LSR & UART_LSR_RDR) {
+		uint8_t byte = LPC_UART1->RBR;
 		
 		if (sbus_rx_count < SBUS_RX_BUF_LEN) {
 			sbus_rx_buffer[sbus_rx_count++] = byte;
@@ -123,15 +126,29 @@ void UART_IRQHandler(void)
 	}
 }
 
+void UART1_IRQHandler(void)
+{
+	switch (LPC_UART1->IIR & 0xe) {
+		case UART_IIR_INTID_RDA:
+		case UART_IIR_INTID_CTI:
+			uart1_rx_handler();
+			break;
+		case UART_IIR_INTID_THRE:
+			uart1_tx_handler();
+			break;
+	}
+}
+
 void UART2_IRQHandler(void)
 {
 	switch (LPC_UART2->IIR & 0xe) {
 		case UART_IIR_INTID_RDA:
 		case UART_IIR_INTID_CTI:
-			uart2_rx_handler();
+			// uart2_rx_handler();
+			modbus_int_rx(&modbus);
 			break;
 		case UART_IIR_INTID_THRE:
-			uart2_tx_handler();
+			modbus_int_tx(&modbus);
 			break;
 	}
 }
@@ -154,13 +171,14 @@ void init_sim_800(void)
 	module_state = M_STATE_ON;
 	
 	mtask_state = MTASK_INIT;
-	sms_task_state = SMS_TASK_INIT;
+	//sms_task_state = SMS_TASK_INIT;
 	/* Инициализация таймеров */
 	TME_START(module_tme);
 }
 
 void modem_write(const char *cmd, uint32_t size)
 {
+	memset(modem_rx_buffer, 0, sizeof(modem_rx_buffer));// clean buffer before sending
 	memcpy(modem_tx_buffer, cmd, size);
 	modem_tx_idx = 0;
 	modem_tx_count = size;
@@ -170,19 +188,48 @@ void modem_write(const char *cmd, uint32_t size)
 
 void sbus_write(const char *cmd, uint32_t size)
 {
+	memset(sbus_tx_buffer, 0, sizeof(sbus_tx_buffer));// clean buffer before sending
 	memcpy(sbus_tx_buffer, cmd, size);
 	sbus_tx_idx = 0;
 	sbus_tx_count = size;
-	uart2_tx_handler();
-	Chip_UART_IntEnable(LPC_UART2, UART_IER_THREINT);
+	uart1_tx_handler();
+	Chip_UART_IntEnable(LPC_UART1, UART_IER_THREINT);
 }
 
-void led_toggle(void);
-
-void ping_modem()
+void led_toggle(void)
 {
-	//led_toggle();
-	modem_write("AT\r\n", 4);	
+	static int led_stat;
+	if (led_stat == 0)
+	{
+		Chip_GPIO_WritePortBit(LPC_GPIO, 0, 8, true);
+		led_stat = 1;
+	} else 
+	{
+		Chip_GPIO_WritePortBit(LPC_GPIO, 0, 8, false);
+		led_stat = 0;
+	}
+}
+
+void stat_led_on(void)
+{
+	Chip_GPIO_WritePortBit(LPC_GPIO, 0, 8, true);
+}
+
+void stat_led_off(void)
+{
+	Chip_GPIO_WritePortBit(LPC_GPIO, 0, 8, false);
+}
+
+void ping_modem(void)
+{
+	stat_led_on();
+	modem_write("AT\r\n", 4);
+}
+
+void gsm_check(void)
+{
+	stat_led_on();
+	modem_write("AT+CREG?\r\n", 10);
 }
 
 void modem_send_pin()
@@ -200,14 +247,32 @@ void modem_send_sms(char sms_text[])
 	modem_write(msg_buf, strlen(msg_buf));    // send the SMS
 }
 
-void modem_check_gsm(void)
+int modem_check_answer(const char *expected_answer)
 {
-	modem_write("AT+CREG?\r\n", 10);
+	char *p;
+	p = strstr(modem_rx_buffer, expected_answer);
+	if(p)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
-void modem_check_answer(void)
+int sbus_check_answer(const char *expected_answer)
 {
-
+	char *p;
+	p = strstr(sbus_rx_buffer, expected_answer);
+	if(p)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void change_mtask_state(mtask_state_t new_state)
@@ -216,25 +281,32 @@ void change_mtask_state(mtask_state_t new_state)
 	mtask_state = new_state;
 }
 
-void modem_error_handler(void)
+// TODO: check red led on circuit, and show errors with it
+//void modem_error_handler(void)
+//{
+//	if (TME_CHECK(module_tme, 5000)) {
+//		switch (module_state)
+//		{
+//			case M_STATE_OFF:
+//				// turn on modem
+//				led_toggle();
+//				break;
+//			case M_STATE_ERROR:
+//				// init again
+//				led_toggle();
+//				break;
+//			case M_STATE_OFFLINE:
+//				// reboot, or reinit gsm
+//				led_toggle();
+//				break;
+//		}
+//	}
+//}
+
+// TODO: move all same actions in recieve from module here
+void do_recive_routines(void)
 {
-	if (TME_CHECK(module_tme, 5000)) {
-		switch (module_state)
-		{
-			case M_STATE_OFF:
-				// turn on modem
-				led_toggle();
-				break;
-			case M_STATE_ERROR:
-				// init again
-				led_toggle();
-				break;
-			case M_STATE_OFFLINE:
-				// reboot, or reinit gsm
-				led_toggle();
-				break;
-		}
-	}
+	
 }
 
 void modem_task()
@@ -252,18 +324,20 @@ void modem_task()
 		case MTASK_CHECK_REG:
 			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100))
 			{
-				if (1) // check answer of modem
+				if (modem_check_answer("0,1")) // check answer of modem
 				{
+					module_state = M_STATE_ON;
 					modem_write("AT+CMGF=1\r\n;AT+CSCS=\"GSM\"\r\n", 26);
+					modem_rx_count = 0;
 					change_mtask_state(MTASK_CONF_SMS);
 				}
-
-				modem_rx_count = 0;
-				// else
-				// {
-				// 	// change all states to ERROR
-				// 	module_state = M_STATE_ERROR;
-				// }
+				else
+				{
+					// change all states to ERROR TODO here: if 0,2 -> search of network is performing now, handle this situation
+					module_state = M_STATE_ERROR;
+					modem_rx_count = 0;
+					change_mtask_state(MTASK_INIT);
+				}
 			}
 			break;
 		case MTASK_CONF_SMS:// check if AT+CMGF=1\r\nAT+CSCS=\"GSM\"\r\n sending is available
@@ -271,39 +345,83 @@ void modem_task()
 			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) 
 			{
 				// Проверка ответа
-				if (1) { // check rx buffer for the desired answer
+				if (modem_check_answer("OK")) { // check rx buffer for the desired answer
 					// sms has been configured in this moment
-					mtask_state = MTASK_WORK;
+					module_state = M_STATE_ON;
+					change_mtask_state(MTASK_WORK);
 				}
-				// else
-				// {
-				// 	module_state = M_STATE_ERROR;
-				// }
+				else
+				{
+					module_state = M_STATE_ERROR;
+					change_mtask_state(MTASK_INIT);
+				}
 				modem_rx_count = 0;
 			}			
 			break;
 		case MTASK_WORK:							
 			if (TME_CHECK(module_tme, 10000)) {
-				ping_modem();
-				change_mtask_state(MTASK_CHECK_PING);
+				if (gsm_check_cnt++ > 12 /*2 mins*/ && module_state == M_STATE_ON)
+				{
+					//here should be gsm coverage check
+					gsm_check_cnt = 0;
+					gsm_check();
+					change_mtask_state(MTASK_CHECK_GSM);
+				}
+				else
+				{
+					ping_modem();
+					change_mtask_state(MTASK_CHECK_PING);
+				}
 			}
-
+			
+			cond_to_send = registers_block[2]; // value to check if sms sending is on
+			//cond_to_send = 1; //tmp
 			if(cond_to_send == 1) // sms need to send
 			{	
-				cond_to_send = 0;
+				//cond_to_send = 0;// tmp
 				modem_send_sms("Test sms msg."); // send sms with 1 call of modem_write
 				change_mtask_state(MTASK_CHECK_SMS_IS_SENT);
 			}
 			
 			break;
+		case MTASK_CHECK_GSM:
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) // modem is online (add timer check here)
+			{
+				stat_led_off();
+				if (modem_check_answer("0,1")) //check answer of sim800 here
+				{
+					//module_state = M_STATE_ONLINE; // check if this works? OR:
+					module_state = M_STATE_ON;
+					gsm_state = M_STATE_ONLINE;//(OFFLINE);1/0
+					change_mtask_state(MTASK_WORK);
+				}
+				else
+				{
+					// error codes needed here and in other places with error!
+					gsm_state = M_STATE_OFFLINE;
+					module_err_cnt++;
+					if (module_err_cnt > 10)
+					{
+						module_err_cnt = 0;
+					}
+					module_state = M_STATE_ERROR;
+					change_mtask_state(MTASK_WORK);
+				}
+				modem_rx_count = 0;
+			}
+			break;
 		case MTASK_CHECK_PING:
 			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) // modem is on (add timer check here)
 			{
-				// modem_rx_count shows bytes count from answer
-				if (1)
+				stat_led_off();
+				if (modem_check_answer("OK"))
 				{
 					module_state = M_STATE_ON;
 					change_mtask_state(MTASK_WORK);
+				}
+				else
+				{
+					module_state = M_STATE_ERROR;
 				}
 				modem_rx_count = 0;
 			}
@@ -312,9 +430,14 @@ void modem_task()
 
 			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100))
 			{
-				if (1/*strncmp(modem_rx_buffer, "CMGS = \'1\'", 10)*/) // check rx buffer for the CMGS = 1
+				if (modem_check_answer("CMGS=1")) // check rx buffer for the CMGS = 1
 				{
+					cond_to_send = 0; //tmp
 					change_mtask_state(MTASK_WORK);
+				}
+				else
+				{
+					module_state = M_STATE_ERROR;
 				}
 				modem_rx_count = 0;
 			}
@@ -322,62 +445,6 @@ void modem_task()
 	}
 }
 
-// void sms_task()
-// {
-// 	const char delim_symbol[1] = {
-// 		(char) 13
-// 	};
-// 	const char end_symbol[1] = {
-// 		(char) 26
-// 	};
-// 	//sprintf (end_symbol, "%c", 26);
-//   	char init_sms_str[] = "AT+CMGS=\"+79655766572\"\r\n";
-
-// 	switch (sms_task_state) 
-// 	{
-// 		case SMS_TASK_INIT:
-// 			if(mtask_state == MTASK_WORK) // wait for modem registered to network
-// 			{
-// 				sms_task_state = SMS_TASK_WORK;
-// 				cond_to_send = 0;
-// 			}
-// 			break;
-// 		case SMS_TASK_WORK:
-// 			if(cond_to_send == 1)
-// 			{	
-// 				cond_to_send = 0;
-// 				//modem_write(init_sms_str, strlen(init_sms_str));    // send the SMS number
-// 				//task_delay(100);
-// 				//modem_write(delim_symbol, strlen(delim_symbol));
-// 				//task_delay(100);
-// 				//modem_write("Test\r\n", 6);
-// 				//task_delay(100);
-// 				//modem_write(end_symbol, strlen(end_symbol));
-// 				//task_delay(500);
-// 				if (strncmp(modem_rx_buffer, "CMGS = \'1\'", 10)) // check rx buffer for the CMGS = 1
-// 				{
-// 					sms_task_state = SMS_TASK_IDLE;
-// 				} else
-// 				{
-// 					module_state = M_STATE_ERROR;
-// 				}
-// 			} else
-// 			{
-// 				sms_task_state = SMS_TASK_IDLE;
-// 			}
-// 			break;
-// 		case SMS_TASK_IDLE:
-// 			if (sbus_rx_flag == 1)
-// 			{
-// 				if (0/* recieved cmd to send sms from sensors bus */)
-// 				{
-// 					cond_to_send = 1;
-// 					sms_task_state = SMS_TASK_WORK;
-// 				}
-// 			}
-// 			break;
-// 	}
-// }
 
 // move to sbus.c
 void sbus_task()
@@ -390,12 +457,12 @@ void sbus_task()
 		case SBUS_TASK_WORK:
 			if (sbus_rx_flag == 1)
 			{
-				if (1/* recieved cmd to send sms from sensors bus */)
+				if (sbus_check_answer("123\r\n"))
 				{
 					// cond_to_send = 1;
 					// sms_task_state = SMS_TASK_WORK;
 					sbus_rx_flag = 0;
-					sbus_write("ok.\r\n", 5);
+					// sbus_write("ok.\r\n", 5);
 					led_toggle();
 				}
 			}
@@ -404,6 +471,5 @@ void sbus_task()
 			break;
 	}
 }
-
 
 

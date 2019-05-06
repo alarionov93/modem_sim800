@@ -1,26 +1,25 @@
 #include "init.h"
 #include "modem.h"
+#include "modbus.h"
 
-// 1_8 TX 0_3 RX
-// does this apply to UART1 too?
-// static void Init_UART_PinMux(void)
-// {
-// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_6, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD */
-// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_7, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD */
-// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO0_3, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD */
-// 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_8, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD */
-// }
+// 1_8 TX2 0_3 RX2
+// 0_6 TX1 0_7 RX1
 
 static void Init_UART_PinMux(void)
 {
 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_6, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* RXD0 */
 	Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_PIO1_7, (IOCON_FUNC1 | IOCON_MODE_INACT | IOCON_DIGMODE_EN));	/* TXD0 */
 
-	// !!! Через Chip_IPCON_PinMuxSet почему-то не работает (баг в библоитеке)
+	// !!! Через Chip_IPCON_PinMuxSet почему-то не работает (баг в библиотеке)
 	// txd2 @ pio1_8
 	*((uint32_t *)0x40044018) |= 0x3; 
 	// rxd2 @ pio0_3
 	*((uint32_t *)0x400440c0) |= 0x3;
+
+	// txd1 @ pio 0_6
+	*((uint32_t *)0x400440c4) |= 0x3;
+	// rxd1 @ pio 0_7
+	*((uint32_t *)0x400440c8) |= 0x3;
 }
 
 
@@ -44,9 +43,15 @@ void init(void)
 	// Настройка функций на ножках, где uart
 	Init_UART_PinMux();
 	
-	/* Setup UART for 9600 */
+	/* Setup UART2 */
 	Chip_UART_Init(LPC_UART2);
 	Chip_UART_SetBaud(LPC_UART2, 38400);
+
+	/* UART1 */
+	//Chip_UART_Init(LPC_UART1);
+	//Chip_UART_SetBaud(LPC_UART1, 9600);
+	//IOCON_PIO0_6 |= 0x3;
+	//IOCON_PIO0_7 |= 0x3;
 
 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_GPIO);
 	
@@ -82,7 +87,7 @@ void init(void)
 
 	/* Enable receive data and transmit data */
 	Chip_UART_IntEnable(LPC_UART0, UART_IER_RBRINT);
-	Chip_UART_IntEnable(LPC_UART2, UART_IER_RBRINT);
+	Chip_UART_IntEnable(LPC_UART2, UART_IER_RBRINT | UART_IER_THREINT);
 
 	/* preemption = 1, sub-priority = 1 */
 	NVIC_SetPriority(UART0_IRQn, 1);

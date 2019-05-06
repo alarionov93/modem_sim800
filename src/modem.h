@@ -8,9 +8,12 @@ typedef enum {
 	M_STATE_ON, // 1 if module is turned on
 	M_STATE_ERROR, // 2 if module is not answering or smth else
 	M_STATE_INIT, // 3 while turning on pwr on module
-	M_STATE_ONLINE, // 4 if module answered to AT with OK and registered to network
-	M_STATE_OFFLINE, // 5 if module NOT answered to AT with OK or NOT registered to network
 } modem_state_t;
+
+typedef enum {
+	M_STATE_OFFLINE, // 0 if module NOT answered to AT with OK or NOT registered to network
+	M_STATE_ONLINE, // 1 if module answered to AT with OK and registered to network
+} gsm_state_t;
 
 typedef enum {
 	MTASK_INIT,
@@ -18,14 +21,9 @@ typedef enum {
 	MTASK_CONF_SMS,
 	MTASK_WORK,
 	MTASK_CHECK_PING,
+	MTASK_CHECK_GSM,
 	MTASK_CHECK_SMS_IS_SENT,
 } mtask_state_t;
-
-typedef enum {
-	SMS_TASK_INIT,
-	SMS_TASK_WORK,
-	SMS_TASK_IDLE,
-} sms_task_state_t;
 
 // move this to sbus.h too
 typedef enum {
@@ -36,5 +34,7 @@ typedef enum {
 
 void init_sim_800(void);
 void modem_task(void);
-
+void led_toggle(void);
+void stat_led_on(void);
+void stat_led_off(void);
 #endif

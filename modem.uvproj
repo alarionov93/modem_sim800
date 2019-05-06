@@ -431,6 +431,26 @@
               <FileType>1</FileType>
               <FilePath>.\src\modem.c</FilePath>
             </File>
+            <File>
+              <FileName>crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\modbus.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\modbus_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
