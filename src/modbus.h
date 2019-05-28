@@ -35,13 +35,19 @@ void modbus_int_tx(void *p);
 
 #define HOLDING_REGS_COUNT 16
 extern uint16_t registers_block[];
+extern uint16_t registers_block2[];
 
 extern modbus_t modbus;
+extern modbus_t modbus2;
 
 uint32_t get_timer_ms(void);
 
 uint32_t uart2_read(uint8_t *dst, uint32_t length);
 
 uint32_t uart2_write(const uint8_t *src, uint32_t length);
+
+uint32_t uart1_read(uint8_t *dst, uint32_t length);
+
+uint32_t uart1_write(const uint8_t *src, uint32_t length);
 
 #endif

@@ -1,5 +1,6 @@
 #include "init.h"
 #include "modbus.h"
+// #include "modbus2.h"
 
 /*****************************************************************************
  * Private types/enumerations/variables
@@ -10,6 +11,8 @@
 */
 
 volatile uint32_t systick = 0;
+
+// extern modbus_t modbus2;
 
 void SysTick_Handler(void)
 {
@@ -23,12 +26,12 @@ void task_delay(uint32_t ms)
         __NOP();
 }
 
-// void uart2_echo_task()
-// {	
-// 	if (LPC_UART2->LSR & UART_LSR_RDR) {
-// 		LPC_UART2->THR = LPC_UART2->RBR;
-// 	}
-// }
+void uart1_echo_task()
+{	
+	if (LPC_UART1->LSR & UART_LSR_RDR) {
+		LPC_UART1->THR = LPC_UART1->RBR;
+	}
+}
 
 /**
  * @brief	Main UART program body
@@ -39,11 +42,12 @@ int main(void)
 	init();	
 	
 	for (;;) {
-		modem_task();
-		// sbus_task();
-		// modbus_net_process(&modbus);
-		// modem_error_handler();
-		// network_task();		
+		//modem_task();
+		//sbus_task();
+		modbus_net_process(&modbus);
+		//uart1_echo_task();
+		modbus_net_process(&modbus2);
+		//modem_error_handler();
 		// led_task();
 	}
 }

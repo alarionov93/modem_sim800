@@ -446,11 +446,6 @@
               <FileType>1</FileType>
               <FilePath>.\src\modbus.c</FilePath>
             </File>
-            <File>
-              <FileName>modbus_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\modbus_ex.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

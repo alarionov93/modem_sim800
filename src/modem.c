@@ -1,6 +1,7 @@
 #include "init.h"
 #include "modem.h"
 #include "modbus.h"
+// #include "modbus2.h"
 //#include "chip.h"
 
 #define MODEM_RX_BUF_LEN 128
@@ -10,6 +11,8 @@
 #define SBUS_TX_BUF_LEN 128
 
 volatile uint32_t recv_tme;
+
+// extern modbus_t modbus2;
 
 uint8_t modem_rx_buffer[MODEM_RX_BUF_LEN];
 volatile uint32_t modem_rx_count;
@@ -82,36 +85,36 @@ void uart_rx_handler()
 	}
 }
 
-void uart1_tx_handler()
-{
-	uint32_t written = Chip_UART_Send(LPC_UART1, &sbus_tx_buffer[sbus_tx_idx], sbus_tx_count);	
+// void uart1_tx_handler()
+// {
+// 	uint32_t written = Chip_UART_Send(LPC_UART1, &sbus_tx_buffer[sbus_tx_idx], sbus_tx_count);	
 	
-	sbus_tx_idx += written;
-	sbus_tx_count -= written;
+// 	sbus_tx_idx += written;
+// 	sbus_tx_count -= written;
 	
-	if (!sbus_tx_count) {
-		// Отключаем прерывание tx
-		Chip_UART_IntDisable(LPC_UART1, UART_IER_THREINT);
-	}
-}
+// 	if (!sbus_tx_count) {
+// 		// Отключаем прерывание tx
+// 		Chip_UART_IntDisable(LPC_UART1, UART_IER_THREINT);
+// 	}
+// }
 
 
 
-void uart1_rx_handler()
-{
-	while (LPC_UART1->LSR & UART_LSR_RDR) {
-		uint8_t byte = LPC_UART1->RBR;
+// void uart1_rx_handler()
+// {
+// 	while (LPC_UART1->LSR & UART_LSR_RDR) {
+// 		uint8_t byte = LPC_UART1->RBR;
 		
-		if (sbus_rx_count < SBUS_RX_BUF_LEN) {
-			sbus_rx_buffer[sbus_rx_count++] = byte;
-			if (byte == '\n') {
-				sbus_rx_flag = 1;
-			}			
-		} else {
-			sbus_rx_count = 0;
-		}
-	}
-}
+// 		if (sbus_rx_count < SBUS_RX_BUF_LEN) {
+// 			sbus_rx_buffer[sbus_rx_count++] = byte;
+// 			if (byte == '\n') {
+// 				sbus_rx_flag = 1;
+// 			}			
+// 		} else {
+// 			sbus_rx_count = 0;
+// 		}
+// 	}
+// }
 
 void UART_IRQHandler(void)
 {
@@ -131,10 +134,10 @@ void UART1_IRQHandler(void)
 	switch (LPC_UART1->IIR & 0xe) {
 		case UART_IIR_INTID_RDA:
 		case UART_IIR_INTID_CTI:
-			uart1_rx_handler();
+			modbus_int_rx(&modbus2);
 			break;
 		case UART_IIR_INTID_THRE:
-			uart1_tx_handler();
+			modbus_int_tx(&modbus2);
 			break;
 	}
 }
@@ -186,15 +189,15 @@ void modem_write(const char *cmd, uint32_t size)
 	Chip_UART_IntEnable(LPC_UART0, UART_IER_THREINT);
 }
 
-void sbus_write(const char *cmd, uint32_t size)
-{
-	memset(sbus_tx_buffer, 0, sizeof(sbus_tx_buffer));// clean buffer before sending
-	memcpy(sbus_tx_buffer, cmd, size);
-	sbus_tx_idx = 0;
-	sbus_tx_count = size;
-	uart1_tx_handler();
-	Chip_UART_IntEnable(LPC_UART1, UART_IER_THREINT);
-}
+//void sbus_write(const char *cmd, uint32_t size)
+//{
+//	memset(sbus_tx_buffer, 0, sizeof(sbus_tx_buffer));// clean buffer before sending
+//	memcpy(sbus_tx_buffer, cmd, size);
+//	sbus_tx_idx = 0;
+//	sbus_tx_count = size;
+//	uart1_tx_handler();
+//	Chip_UART_IntEnable(LPC_UART1, UART_IER_THREINT);
+//}
 
 void led_toggle(void)
 {
@@ -218,6 +221,16 @@ void stat_led_on(void)
 void stat_led_off(void)
 {
 	Chip_GPIO_WritePortBit(LPC_GPIO, 0, 8, false);
+}
+
+void err_led_on(void)
+{
+	//Chip_GPIO_WritePortBit(LPC_GPIO, 0, 1, true);
+}
+
+void err_led_off(void)
+{
+	//Chip_GPIO_WritePortBit(LPC_GPIO, 0, 1, false);
 }
 
 void ping_modem(void)
@@ -282,26 +295,38 @@ void change_mtask_state(mtask_state_t new_state)
 }
 
 // TODO: check red led on circuit, and show errors with it
-//void modem_error_handler(void)
-//{
-//	if (TME_CHECK(module_tme, 5000)) {
-//		switch (module_state)
-//		{
-//			case M_STATE_OFF:
-//				// turn on modem
-//				led_toggle();
-//				break;
-//			case M_STATE_ERROR:
-//				// init again
-//				led_toggle();
-//				break;
+void modem_error_handler(void)
+{
+	if (TME_CHECK(module_tme, 500)) {
+		switch (module_state)
+		{
+			case M_STATE_OFF:
+				// turn on modem
+				err_led_on();
+				break;
+			case M_STATE_ON:
+				err_led_off();
+				break;
+			case M_STATE_ERROR:
+				// init again
+				err_led_on();
+				break;
 //			case M_STATE_OFFLINE:
 //				// reboot, or reinit gsm
 //				led_toggle();
 //				break;
-//		}
-//	}
-//}
+		}
+		switch(gsm_state)
+		{
+			case M_STATE_OFFLINE:
+				err_led_on();
+				break;
+			case M_STATE_ONLINE:
+				err_led_off();
+				break;
+		}
+	}
+}
 
 // TODO: move all same actions in recieve from module here
 void do_recive_routines(void)
@@ -422,6 +447,7 @@ void modem_task()
 				else
 				{
 					module_state = M_STATE_ERROR;
+					//reinit modem here
 				}
 				modem_rx_count = 0;
 			}
