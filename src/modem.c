@@ -14,7 +14,7 @@ volatile uint32_t recv_tme;
 
 // extern modbus_t modbus2;
 
-uint8_t modem_rx_buffer[MODEM_RX_BUF_LEN];
+uint8_t modem_rx_buffer[MODEM_RX_BUF_LEN+1];
 volatile uint32_t modem_rx_count;
 volatile uint32_t modem_rx_flag;
 
@@ -75,14 +75,9 @@ void uart_rx_handler()
 		if (modem_rx_count < MODEM_RX_BUF_LEN) {
 			modem_rx_buffer[modem_rx_count++] = byte;
 			TME_START(recv_tme);
-			//if (byte == '\n') {
-			//	modem_rx_flag = 1;
-			//}			
 		} 
-		// else {
-		// 	modem_rx_count = 0;
-		// }
 	}
+	modem_rx_buffer[modem_rx_count] = 0;
 }
 
 // void uart1_tx_handler()
@@ -134,10 +129,10 @@ void UART1_IRQHandler(void)
 	switch (LPC_UART1->IIR & 0xe) {
 		case UART_IIR_INTID_RDA:
 		case UART_IIR_INTID_CTI:
-			modbus_int_rx(&modbus2);
+			modbus_int_rx(&modbus);
 			break;
 		case UART_IIR_INTID_THRE:
-			modbus_int_tx(&modbus2);
+			modbus_int_tx(&modbus);
 			break;
 	}
 }
@@ -148,10 +143,10 @@ void UART2_IRQHandler(void)
 		case UART_IIR_INTID_RDA:
 		case UART_IIR_INTID_CTI:
 			// uart2_rx_handler();
-			modbus_int_rx(&modbus);
+			modbus_int_rx(&modbus2);
 			break;
 		case UART_IIR_INTID_THRE:
-			modbus_int_tx(&modbus);
+			modbus_int_tx(&modbus2);
 			break;
 	}
 }
@@ -347,16 +342,23 @@ void modem_task()
 			}
 			break;
 		case MTASK_CHECK_REG:
-			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100))
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 500))
 			{
 				if (modem_check_answer("0,1")) // check answer of modem
 				{
 					module_state = M_STATE_ON;
+					gsm_state = M_STATE_ONLINE;
 					modem_write("AT+CMGF=1\r\n;AT+CSCS=\"GSM\"\r\n", 26);
 					modem_rx_count = 0;
 					change_mtask_state(MTASK_CONF_SMS);
 				}
-				else
+				else if (modem_check_answer("0,2"))
+				{
+					gsm_state = M_STATE_OFFLINE;
+					modem_rx_count = 0;
+					change_mtask_state(MTASK_INIT);
+				}
+				else 
 				{
 					// change all states to ERROR TODO here: if 0,2 -> search of network is performing now, handle this situation
 					module_state = M_STATE_ERROR;
@@ -367,7 +369,7 @@ void modem_task()
 			break;
 		case MTASK_CONF_SMS:// check if AT+CMGF=1\r\nAT+CSCS=\"GSM\"\r\n sending is available
 			// Проверка условия приема ответа и смены состояния
-			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) 
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 500)) 
 			{
 				// Проверка ответа
 				if (modem_check_answer("OK")) { // check rx buffer for the desired answer
@@ -410,7 +412,7 @@ void modem_task()
 			
 			break;
 		case MTASK_CHECK_GSM:
-			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) // modem is online (add timer check here)
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 500)) // modem is online (add timer check here)
 			{
 				stat_led_off();
 				if (modem_check_answer("0,1")) //check answer of sim800 here
@@ -436,7 +438,7 @@ void modem_task()
 			}
 			break;
 		case MTASK_CHECK_PING:
-			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100)) // modem is on (add timer check here)
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 500)) // modem is on (add timer check here)
 			{
 				stat_led_off();
 				if (modem_check_answer("OK"))
@@ -447,6 +449,8 @@ void modem_task()
 				else
 				{
 					module_state = M_STATE_ERROR;
+					init_sim_800();
+					change_mtask_state(MTASK_INIT);
 					//reinit modem here
 				}
 				modem_rx_count = 0;
@@ -454,16 +458,18 @@ void modem_task()
 			break;
 		case MTASK_CHECK_SMS_IS_SENT:
 
-			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 100))
+			if (modem_rx_count > 0 && TME_CHECK(recv_tme, 1000))
 			{
 				if (modem_check_answer("CMGS=1")) // check rx buffer for the CMGS = 1
 				{
 					cond_to_send = 0; //tmp
+					module_state = M_STATE_ON;
 					change_mtask_state(MTASK_WORK);
 				}
 				else
 				{
 					module_state = M_STATE_ERROR;
+					change_mtask_state(MTASK_WORK);
 				}
 				modem_rx_count = 0;
 			}

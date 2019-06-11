@@ -48,7 +48,7 @@ void init(void)
 	Chip_UART_SetBaud(LPC_UART2, 38400);
 	
 	Chip_UART_Init(LPC_UART1);
-	Chip_UART_SetBaud(LPC_UART1, 9600);
+	Chip_UART_SetBaud(LPC_UART1, 38400);
 
 	Chip_Clock_EnablePeriphClock(SYSCON_CLOCK_GPIO);
 	

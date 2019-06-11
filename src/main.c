@@ -42,8 +42,8 @@ int main(void)
 	init();	
 	
 	for (;;) {
-		//modem_task();
-		//sbus_task();
+		modem_task();
+		// sbus_task();
 		modbus_net_process(&modbus);
 		//uart1_echo_task();
 		modbus_net_process(&modbus2);

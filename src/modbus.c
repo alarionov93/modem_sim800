@@ -265,7 +265,8 @@ uint32_t uart2_write(const uint8_t *src, uint32_t length)
 // Чтение из uart в dst
 uint32_t uart1_read(uint8_t *dst, uint32_t length)
 {
-    // !!! Обязательно проверять на равенство dst == NULL и если это так то очищать приемную очередь uart
+    // !!! Обязательно проверять на равенство dst == NULL
+    // и если это так то очищать приемную очередь uart
     uint32_t cnt = 0;
  
     while (LPC_UART1->LSR & UART_LSR_RDR && cnt < length) {
@@ -299,8 +300,8 @@ uint16_t registers_block2[HOLDING_REGS_COUNT];
 
 modbus_t modbus2 = {
     .get_timer = get_timer_ms,
-    .read = uart1_read,
-    .write = uart1_write,
+    .read = uart2_read,
+    .write = uart2_write,
 
     .tx_idle = NULL,
     .drv_ctl = NULL,
@@ -315,8 +316,8 @@ uint16_t registers_block[HOLDING_REGS_COUNT];
 
 modbus_t modbus = {
     .get_timer = get_timer_ms,
-    .read = uart2_read,
-    .write = uart2_write,
+    .read = uart1_read,
+    .write = uart1_write,
 
     .tx_idle = NULL,
     .drv_ctl = NULL,
